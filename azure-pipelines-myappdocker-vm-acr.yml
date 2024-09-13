@@ -26,7 +26,7 @@ stages:
                     # Verificar e instalar Azure CLI en la máquina virtual
                     if ! command -v az &> /dev/null; then
                       echo "Azure CLI no está instalado. Instalando Azure CLI..."
-                      sudo apt-get update && \
+                      export DEBIAN_FRONTEND=noninteractive && sudo apt-get update && \
                       sudo apt-get install -y curl && \
                       curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash && \
                       az --version
@@ -37,11 +37,13 @@ stages:
                   failOnStderr: true
 
                 - script: |
+                    # Verificar si hay paquetes en estado interrumpido
+                    sudo dpkg --configure -a
+                    
                     # Verificar e instalar Docker en la máquina virtual
                     if ! command -v docker &> /dev/null; then
                       echo "Docker no está instalado. Instalando Docker..."
-                      export DEBIAN_FRONTEND=noninteractive && \
-                      sudo apt-get update && \
+                      export DEBIAN_FRONTEND=noninteractive && sudo apt-get update && \
                       sudo apt-get install -y \
                         apt-transport-https \
                         ca-certificates \
