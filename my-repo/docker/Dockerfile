@@ -26,5 +26,4 @@ EXPOSE 80
 # Puedes comentar esta línea si no quieres ejecutar las pruebas aquí
 RUN npm test || echo "Tests failed, but continuing..."
 
-# Ejecuta Nginx cuando el contenedor se inicie
 CMD ["nginx", "-g", "daemon off;"]
