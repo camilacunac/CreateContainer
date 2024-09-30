@@ -3,44 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplicación Actualizada con CI/CD</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        p {
-            font-size: 1.2em;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        footer {
-            margin-top: 50px;
-            font-size: 0.9em;
-            color: #666;
-        }
-    </style>
+    <title>Aplicación Desplegada con CI/CD</title>
 </head>
 <body>
-    <div class="container">
-        <h1>¡Despliegue Automatizado con CI/CD!</h1>
-        <p>Este es un ejemplo de página web desplegada automáticamente usando Azure DevOps Pipelines.</p>
-        <p>El código ha sido actualizado exitosamente y este es el nuevo contenido del sitio.</p>
-    </div>
-    <footer>
-        <p>&copy; 2024 Mi Aplicación - Desplegada mediante CI/CD</p>
-    </footer>
+    <h1 id="titulo">¡Despliegue Automatizado con CI/CD!</h1>
+    <p>Este despliegue fue realizado en:</p>
+    <p id="entorno"></p>
+
+    <script>
+        // Cambia el texto según el entorno
+        var entorno = "producción";  // Esto puedes controlarlo desde tu pipeline o Docker env vars
+        document.getElementById("entorno").textContent = entorno;
+
+        if (entorno === "producción") {
+            document.getElementById("titulo").textContent = "¡Despliegue en Producción!";
+        } else {
+            document.getElementById("titulo").textContent = "Despliegue en Desarrollo";
+        }
+    </script>
 </body>
 </html>
