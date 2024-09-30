@@ -1,11 +1,11 @@
 # Usa una imagen base oficial de Nginx
 FROM nginx:latest
 
-# Instala Node.js y NPM
 RUN apt-get update && \
     apt-get install -y curl && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt-get install -y nodejs
+    apt-get install -y nodejs && \
+    apt-get install -y npm
 
 # Verifica la instalación de node y npm
 RUN node -v && npm -v
