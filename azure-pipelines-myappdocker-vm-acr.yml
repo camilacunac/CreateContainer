@@ -4,11 +4,11 @@ trigger:
       - main
 
 variables:
-  VM_IP_PUBLICA: "20.62.41.93" # Se debe colocar la IP pública de tu máquina virtual
-  IMAGE_NAME: "myapp-nginx-s4" # Se debe colocar el Nombre de la imagen que será descargada desde ACR
-  ACR_NAME: "myappdevopsciac" # Se debe colocar el Nombre de tu Azure Container Registry (ACR)
-  ACR_USERNAME: "myappdevopsciac" # Se debe colocar el Nombre de usuario del ACR
-  ACR_PASSWORD: "0WyU0MaS6Uzh8b3w4TRtpJU7iHEOZyyIA5w6Jk3AN6+ACRCPnu8c" # Se debe colocar la Contraseña del ACR
+  VM_IP_PUBLICA: "20.62.41.93" # IP pública de la máquina virtual
+  IMAGE_NAME: "myapp-nginx-s4" # Nombre de la imagen
+  ACR_NAME: "myappdevopsciac" # Nombre del Azure Container Registry (ACR)
+  ACR_USERNAME: "myappdevopsciac" # Nombre de usuario del ACR
+  ACR_PASSWORD: "0WyU0MaS6Uzh8b3w4TRtpJU7iHEOZyyIA5w6Jk3AN6+ACRCPnu8c" # Contraseña del ACR
 
 stages:
   - stage: Deploy
@@ -17,7 +17,7 @@ stages:
         displayName: "Deploy to VM"
         environment:
           name: "VM-DEVOPS-SUM2" # Nombre del entorno configurado en Azure DevOps
-          resourceType: VirtualMachine # Especifica que se conecta a una máquina virtual
+          resourceType: VirtualMachine
         strategy:
           runOnce:
             deploy:
@@ -69,7 +69,7 @@ stages:
                     echo ${ACR_PASSWORD} | sudo docker login ${ACR_NAME}.azurecr.io -u ${ACR_USERNAME} --password-stdin > /dev/null 2>&1
 
                     # Descargar la imagen desde ACR
-                    sudo docker pull ${ACR_NAME}.azurecr.io/${ACR_NAME}.azurecr.io/${IMAGE_NAME}:latest
+                    sudo docker pull ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:latest
 
                     # Verificar si el contenedor ya está en ejecución
                     if sudo docker ps -a --format '{{.Names}}' | grep -Eq "^nginx_container\$"; then
@@ -77,7 +77,7 @@ stages:
                       sudo docker start nginx_container
                     else
                       echo "El contenedor 'nginx_container' no existe. Creándolo y ejecutándolo..."
-                      sudo docker run -d -p 80:80 --name nginx_container ${ACR_NAME}.azurecr.io/${ACR_NAME}.azurecr.io/${IMAGE_NAME}:latest
+                      sudo docker run -d -p 80:80 --name nginx_container ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:latest
                     fi
 
                     sudo docker ps
@@ -87,4 +87,4 @@ stages:
                 - script: |
                     # Mostrar la URL para acceder a Nginx
                     echo "La URL para acceder a Nginx es: http://${VM_IP_PUBLICA}/"
-                  displayName: "Mostrar URL de la máquina virtual"
+                  displayName: "Mostrar URL de la máquina virtual"
